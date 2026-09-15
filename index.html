@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>9/15 Zoom勉強会</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#F6F5F1; --surface:#FFFFFF; --ink:#1E1C19; --muted:#6B665E;
+  --rule:#E4E0D8; --rule-strong:#C9C3B8; --q-bg:#F1EFE9;
+  --p1:#2A6A8A; --p2:#7B4A8E; --p3:#2F7A56; --p4:#A8611F; --p5:#9C3556;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1B1A17; --surface:#232220; --ink:#ECE8E0; --muted:#A39D93;
+    --rule:#35332E; --rule-strong:#4A473F; --q-bg:#1F1E1B;
+    --p1:#7FB6D3; --p2:#C39AD6; --p3:#7CC49C; --p4:#E0A466; --p5:#E68FB0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1B1A17; --surface:#232220; --ink:#ECE8E0; --muted:#A39D93;
+  --rule:#35332E; --rule-strong:#4A473F; --q-bg:#1F1E1B;
+  --p1:#7FB6D3; --p2:#C39AD6; --p3:#7CC49C; --p4:#E0A466; --p5:#E68FB0;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;
+  font-size:15px; line-height:1.65; font-variant-numeric:tabular-nums;
+}
+.wrap{max-width:1280px; margin:0 auto; padding:28px 20px 56px}
+
+header.top{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 16px;
+  padding-bottom:12px; margin-bottom:18px; border-bottom:2px solid var(--ink);
+}
+h1{margin:0; font-size:24px; font-weight:700; letter-spacing:.01em; text-wrap:balance}
+.sub{color:var(--muted); font-size:14px}
+
+/* 人ごとの色 */
+.p1{--pc:var(--p1)} .p2{--pc:var(--p2)} .p3{--pc:var(--p3)} .p4{--pc:var(--p4)} .p5{--pc:var(--p5)}
+
+/* ===== 表本体（PC） ===== */
+.sheet{background:var(--surface); border:1px solid var(--rule); border-radius:6px; overflow:hidden}
+.row{
+  display:grid; grid-template-columns:minmax(200px,1.1fr) repeat(5,minmax(0,1fr));
+  border-top:1px solid var(--rule);
+}
+.row.head{
+  position:sticky; top:0; z-index:2; background:var(--surface);
+  border-top:0; border-bottom:2px solid var(--rule-strong);
+}
+.cell{padding:11px 14px; min-width:0; overflow-wrap:anywhere}
+.cell.q{background:var(--q-bg); border-right:1px solid var(--rule); display:flex; gap:10px; align-items:baseline}
+.cell.a + .cell.a{border-left:1px solid var(--rule)}
+.qhead{font-size:12px; color:var(--muted); letter-spacing:.08em}
+.qn{
+  font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace; font-weight:500;
+  font-size:12px; color:var(--muted); letter-spacing:.04em; min-width:2.8em; flex:none;
+}
+.qt{font-weight:700}
+.multi-mark{font-size:11px; font-weight:400; color:var(--muted); margin-left:6px; white-space:nowrap}
+
+.head .cell.p{display:flex; flex-direction:column; gap:2px}
+.name{font-weight:700; font-size:16px; color:var(--pc); line-height:1.4}
+.type{font-size:12px; color:var(--muted)}
+
+.group{
+  display:flex; align-items:baseline; gap:10px; padding:12px 14px 6px;
+  border-top:1px solid var(--rule-strong); background:var(--surface);
+}
+.gname{font-weight:700; font-size:13px; letter-spacing:.06em}
+.grange{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace; font-weight:500; font-size:11px; color:var(--muted)}
+
+.who{display:none}
+.multi{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:2px}
+.multi li{padding-left:1em; text-indent:-1em}
+.multi li::before{content:"・"; color:var(--muted)}
+.none{color:var(--muted)}
+
+.note{margin:14px 2px 0; font-size:13px; color:var(--muted); display:flex; flex-wrap:wrap; gap:4px 18px}
+.note a{color:inherit; text-underline-offset:3px}
+
+/* ===== スマホ：設問ごとに5人の回答を縦に並べる ===== */
+@media (max-width: 720px){
+  body{font-size:15px}
+  .wrap{padding:18px 12px 48px}
+  h1{font-size:21px}
+  .row{display:block; padding:12px 12px 8px; border-top:0}
+  .row + .row{border-top:1px solid var(--rule)}
+  .row.head{
+    position:static; display:grid; grid-template-columns:1fr 1fr; gap:8px;
+    padding:12px; border-bottom:2px solid var(--rule-strong);
+  }
+  .row.head .cell.q{display:none}
+  .head .cell.p{
+    padding:8px 10px 8px 12px; border:1px solid var(--rule); border-left:4px solid var(--pc);
+    border-radius:4px; background:var(--bg);
+  }
+  .name{font-size:15px}
+  .type{font-size:11.5px; line-height:1.4}
+  .cell.q{background:none; border:0; padding:0 0 8px; align-items:baseline}
+  .cell.a{
+    display:grid; grid-template-columns:5.4em minmax(0,1fr); gap:10px; align-items:start;
+    padding:4px 0; border:0;
+  }
+  .cell.a + .cell.a{border-left:0}
+  .who{
+    display:block; font-size:12px; font-weight:700; color:var(--pc); text-align:center;
+    background:color-mix(in srgb, var(--pc) 13%, transparent); border-radius:4px;
+    padding:2px 0; line-height:1.5; margin-top:2px;
+  }
+  .group{padding:14px 12px 4px; background:var(--q-bg); border-top:1px solid var(--rule-strong)}
+}
+
+@media print{
+  body{background:#fff}
+  .sheet{border:0}
+  .row{break-inside:avoid}
+  .row.head{position:static}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>9/15 Zoom勉強会</h1>
+    <span class="sub">参加者の診断回答（5名・全21問）</span>
+  </header>
+
+  <div class="sheet" role="table" aria-label="参加者ごとの診断回答">
+<div class="row head" role="row">
+<div class="cell q" role="columnheader"><span class="qhead">設問</span></div>
+<div class="cell p p1" role="columnheader"><span class="name">杉浦 真一郎</span><span class="type">出会い方ミスマッチタイプ</span></div>
+<div class="cell p p2" role="columnheader"><span class="name">経澤　耕達</span><span class="type">雑談止まりタイプ</span></div>
+<div class="cell p p3" role="columnheader"><span class="name">MK</span><span class="type">出会い方ミスマッチタイプ</span></div>
+<div class="cell p p4" role="columnheader"><span class="name">hide.gami</span><span class="type">出会い方ミスマッチタイプ</span></div>
+<div class="cell p p5" role="columnheader"><span class="name">ノムケン</span><span class="type">相手の反応読み違いタイプ</span></div>
+</div>
+<div class="group" role="rowheader"><span class="gname">基本</span><span class="grange">Q1–Q6</span></div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q1</span><span class="qt">あなたの年齢</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">50代</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">40代</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">50代</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">40代</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">40代</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q2</span><span class="qt">結婚しているか</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">未婚</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">未婚</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">未婚</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">未婚</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">未婚</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q3</span><span class="qt">好みの女性の年代</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">40代</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">20代</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">30代</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">30代</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">30代</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q4</span><span class="qt">どんな関係になりたいか</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">結婚</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">結婚</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">結婚</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">彼女</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">結婚</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q5</span><span class="qt">深い関係になった人数</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">6人～10人</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">1人～5人</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">1人～5人</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">6人～10人</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">1人～5人</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q6</span><span class="qt">20歳以上年下と付き合った経験</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">ない</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">ない</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">ない</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">ない</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">ない</span></div>
+</div>
+<div class="group" role="rowheader"><span class="gname">出会い・デート</span><span class="grange">Q7–Q11</span></div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q7</span><span class="qt">使っている出会いの手段<span class="multi-mark">複数回答</span></span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">職場の女性</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">職場の女性</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><ul class="multi"><li>マッチングアプリ</li><li>婚活パーティー</li><li>結婚相談所</li></ul></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">マッチングアプリ</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><ul class="multi"><li>マッチングアプリ</li><li>婚活パーティー</li><li>結婚相談所</li><li>職場の女性</li><li>合コン</li></ul></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q8</span><span class="qt">月に会える新規の人数</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">0人</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">1人～5人</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">0人</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">0人</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">1人～5人</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q9</span><span class="qt">月に深い関係になる人数</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">0人</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">0人</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">0人</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">0人</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">0人</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q10</span><span class="qt">深い関係までの平均デート回数</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">3回以上</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">3回以上</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">深い関係になったことがない</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">2回</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">深い関係になったことがない</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q11</span><span class="qt">1回のデートの平均金額</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">3000円～10000円</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">3000円～10000円</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">1000円～3000円</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">3000円～10000円</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">1000円～3000円</span></div>
+</div>
+<div class="group" role="rowheader"><span class="gname">会話</span><span class="grange">Q12–Q16</span></div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q12</span><span class="qt">会話するときの席</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">横並び</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">対面席</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">対面席</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">横並び</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">対面席</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q13</span><span class="qt">最初にする話題</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">仕事の会話</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">自己紹介</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">今後のこと</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">仕事の会話</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">お互いの趣味</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q14</span><span class="qt">帰り際の話題</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">今後のこと</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">女性の好きそうな話題</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">今後のこと</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">女性の好きそうな話題</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">お互いの共通点</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q15</span><span class="qt">会話の仕方</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">相手の話す量と自分の話す量が同じくらいになるように話す</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">相手の話す量と自分の話す量が同じくらいになるように話す</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">聞き役に徹する</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">相手の話す量と自分の話す量が同じくらいになるように話す</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">聞き役に徹する</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q16</span><span class="qt">会話中の女性の反応</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">毎回、女性の反応が違う</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">毎回、女性の反応が違う</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">一応やりとりはしている感じの反応</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">一応やりとりはしている感じの反応</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">一応やりとりはしている感じの反応</span></div>
+</div>
+<div class="group" role="rowheader"><span class="gname">スキンシップ</span><span class="grange">Q17–Q19</span></div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q17</span><span class="qt">スキンシップは得意か</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">あまり得意ではない</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">得意</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">あまり得意ではない</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">得意</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">あまり得意ではない</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q18</span><span class="qt">最初のスキンシップの場所</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">わからない</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">肩を触る</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">手を繋ぐ</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">肩を触る</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">肩を触る</span></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q19</span><span class="qt">スキンシップ後の反応</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">身体をよけられる</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">もっとしてほしそうにする</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">スキンシップをやったことがない</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">女性から身体を近づけてくる</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">女性からスキンシップしてくる</span></div>
+</div>
+<div class="group" role="rowheader"><span class="gname">悩み・投資</span><span class="grange">Q20–Q21</span></div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q20</span><span class="qt">異性関係の悩み<span class="multi-mark">複数回答</span></span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><ul class="multi"><li>好みの女性となるとうまくいかない</li><li>ルックスの良い女性となるとうまくいかない</li><li>若い女性になるとうまくいかない</li><li>そもそも女性経験が少ない</li></ul></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><ul class="multi"><li>好みの女性となるとうまくいかない</li><li>そもそも女性経験が少ない</li></ul></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">そもそも女性経験が少ない</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">若い女性になるとうまくいかない</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><ul class="multi"><li>若い女性になるとうまくいかない</li><li>好みの女性となるとうまくいかない</li><li>ルックスの良い女性となるとうまくいかない</li><li>今後も一生独身かと不安になる</li><li>そもそも女性経験が少ない</li><li>ワンナイトはできるが既存化ができない</li></ul></div>
+</div>
+<div class="row" role="row">
+<div class="cell q" role="rowheader"><span class="qn">Q21</span><span class="qt">恋愛塾・教材への投資額</span></div>
+<div class="cell a p1" role="cell"><span class="who">杉浦</span><span class="ans">全く投資していない</span></div>
+<div class="cell a p2" role="cell"><span class="who">経澤</span><span class="ans">全く投資していない</span></div>
+<div class="cell a p3" role="cell"><span class="who">MK</span><span class="ans">100万円以上</span></div>
+<div class="cell a p4" role="cell"><span class="who">hide.gami</span><span class="ans">全く投資していない</span></div>
+<div class="cell a p5" role="cell"><span class="who">ノムケン</span><span class="ans">100万円以上</span></div>
+</div>
+  </div>
+
+  <p class="note">
+    <a href="https://docs.google.com/spreadsheets/d/1PBQHHdLxd1JtTIM5Jv38aLbJ95xv6m4UUUaIG2RKvkk/edit#gid=0" target="_blank" rel="noopener">元データ：スプレッドシート「恋愛診断ツール_回答ログ」</a>
+  </p>
+</div>
+</body>
+</html>
